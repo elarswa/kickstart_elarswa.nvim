@@ -29,6 +29,7 @@ return require('packer').startup(function(use)
     use 'tpope/vim-fugitive'
     use 'kylechui/nvim-surround'
     use 'lewis6991/gitsigns.nvim'
+    use 'nvim-tree/nvim-web-devicons'
     use {
         'nvim-lualine/lualine.nvim',
         requires = { 'nvim-tree/nvim-web-devicons', opt = true }
