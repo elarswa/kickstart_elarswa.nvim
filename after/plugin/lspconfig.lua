@@ -17,7 +17,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(event)
 
 
-    vim.keymap.set('n', 'gh', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
+    vim.keymap.set('n', 'K', '<cmd>lua vim.lsp.buf.hover()<cr>', opts)
     vim.keymap.set('n', 'gd', '<cmd>lua vim.lsp.buf.definition()<cr>', opts)
     vim.keymap.set('n', 'gD', '<cmd>lua vim.lsp.buf.declaration()<cr>', opts)
     vim.keymap.set('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<cr>', opts)
@@ -34,7 +34,9 @@ require('mason').setup({})
 require('mason-lspconfig').setup({
   handlers = {
     function(server_name)
-      require('lspconfig')[server_name].setup({})
+      local lspconfig = require('lspconfig')
+      lspconfig[server_name].setup({})
+      lspconfig.sourcekit.setup = {}
     end,
   },
 })
@@ -43,6 +45,8 @@ local cmp = require('cmp')
 cmp.setup({
 	sources = {
 		{name = 'nvim_lsp'},
+		{name = 'buffer'},
+		{name = 'path'},
 	},
 	snippet = {
 		expand = function(args)
@@ -51,6 +55,7 @@ cmp.setup({
 		end,
 	},
 	mapping = cmp.mapping.preset.insert({
+    ["<CR>"] = cmp.mapping.confirm({ select = true }),
 		['<C-Space>'] = cmp.mapping.complete(),
 	}),
 })
