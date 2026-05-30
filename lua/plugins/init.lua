@@ -11,28 +11,12 @@ return {
     -- Colorscheme
     'olimorris/onedarkpro.nvim',
 
-    -- Syntax / Treesitter
-    {
-        'nvim-treesitter/nvim-treesitter',
-        build = function()
-            require('nvim-treesitter.install').update({ with_sync = true })()
-        end,
-    },
     -- UI
     'folke/which-key.nvim',
     'nvim-tree/nvim-web-devicons',
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
-    },
-    {
-        'nvim-neo-tree/neo-tree.nvim',
-        branch = 'v3.x',
-        dependencies = {
-            'nvim-lua/plenary.nvim',
-            'nvim-tree/nvim-web-devicons',
-            'MunifTanjim/nui.nvim',
-        },
     },
 
     -- Git

@@ -4,36 +4,39 @@
 
 ```
 ~/.config/nvim/
-├── init.lua                    # Entry point — loads remaps, sets, plugins
+├── init.lua                    # Entry point — bootstraps lazy.nvim, loads remaps, sets, plugins
 ├── lua/
 │   ├── remaps/init.lua         # All keymaps (leader key, navigation, etc.)
 │   ├── sets/init.lua           # vim.opt settings (tabs, line numbers, clipboard, etc.)
+│   ├── utils/init.lua          # Shared utility functions
 │   └── plugins/
-│       └── packer.lua          # Plugin declarations (add/remove plugins here)
+│       └── init.lua            # Plugin declarations (add/remove plugins here)
 └── after/plugin/               # Per-plugin config, loaded after plugins initialize
     ├── lspconfig.lua           # LSP setup, Mason, nvim-cmp completion
     ├── telescope.lua           # Telescope keymaps and config
     ├── harpoon.lua             # Harpoon keymaps
-    ├── neo-tree.lua            # File tree config
     ├── colors.lua              # Colorscheme (onedark_vivid)
     ├── gitsigns.lua            # Git gutter signs
     ├── vim-fugitive.lua        # Git keymaps
     ├── which-key.lua           # Which-key config
-    └── treesitter.lua          # Treesitter parsers config
+    ├── lualine.lua             # Status line config
+    ├── nvim-surround.lua       # Surround text objects config
+    └── nvim-web-devicons.lua   # File icons config
 ```
 
-## Package manager: Packer
+## Package manager: Lazy
 
-Plugins are declared in `lua/plugins/packer.lua`.
+Plugins are declared in `lua/plugins/init.lua`. Lazy auto-installs on first launch.
 
 | Task | Command |
 |---|---|
-| Install missing plugins | `:PackerInstall` |
-| Update all plugins | `:PackerUpdate` |
-| Remove unused plugins | `:PackerClean` |
-| Sync (install + update + clean) | `:PackerSync` |
+| Open Lazy UI | `:Lazy` |
+| Install missing plugins | `:Lazy install` |
+| Update all plugins | `:Lazy update` |
+| Clean unused plugins | `:Lazy clean` |
+| Sync (install + update + clean) | `:Lazy sync` |
 
-After editing `packer.lua`, run `:PackerSync`.
+After editing `lua/plugins/init.lua`, run `:Lazy sync`.
 
 ## LSP / Language servers: Mason
 
@@ -45,7 +48,7 @@ Mason manages language server installations separately from plugins.
 | Install a server | `:MasonInstall <name>` (e.g. `pyright`, `lua_ls`) |
 | Update installed servers | `:MasonUpdate` |
 
-Installed servers are auto-configured via `mason-lspconfig` in `after/plugin/lspconfig.lua`.
+Installed servers are auto-configured via `mason-lspconfig` in `after/plugin/lspconfig.lua`. `sourcekit` (Swift/Obj-C) is enabled directly via `vim.lsp.enable`.
 
 ## Common things to change
 
@@ -78,30 +81,63 @@ vim.opt.scrolloff = 8  -- lines kept above/below cursor
 
 Leader key is `<Space>`.
 
+### General
+
 | Key | Action |
 |---|---|
 | `<leader>e` | Open netrw explorer |
 | `<leader>f` | Format file (LSP) |
-| `<leader>gs` | Git status (Fugitive) |
-| `<leader>a` | Harpoon: add file |
-| `<C-e>` | Harpoon: quick menu |
-| `<C-h/j/k/l>` | Harpoon: jump to file 1–4 |
-| `<leader>sf` | Telescope: find files |
-| `<leader>sg` | Telescope: live grep |
-| `<leader>sd` | Telescope: diagnostics |
-| `<leader>s.` | Telescope: recent files |
-| `<leader><leader>` | Telescope: open buffers |
-| `K` | LSP: hover docs |
-| `gd` | LSP: go to definition |
-| `gr` | LSP: references |
-| `gi` | LSP: implementation |
-| `<F2>` | LSP: rename |
-| `<F4>` | LSP: code action |
-| `H` / `L` | Jump to start / end of line |
+| `H` / `L` | Jump to start / end of line (normal + visual) |
 | `J` / `K` (visual) | Move selection up/down |
+| `<Esc>` | Clear search highlights |
+| `<Esc><Esc>` (terminal) | Exit terminal mode |
+
+### Telescope
+
+| Key | Action |
+|---|---|
+| `<leader>sf` | Find files |
+| `<leader>sg` | Live grep |
+| `<leader>sd` | Diagnostics |
+| `<leader>sh` | Help tags |
+| `<leader>sk` | Keymaps |
+| `<leader>ss` | Select Telescope picker |
+| `<leader>sw` | Search current word |
+| `<leader>sr` | Resume last search |
+| `<leader>s.` | Recent files |
+| `<leader><leader>` | Open buffers |
+| `<leader>/` | Fuzzy search in current buffer |
+
+### Harpoon
+
+| Key | Action |
+|---|---|
+| `<leader>a` | Add file |
+| `<C-e>` | Toggle quick menu |
+| `<C-h/j/k/l>` | Jump to file 1–4 |
+
+### LSP (active when a language server attaches)
+
+| Key | Action |
+|---|---|
+| `K` | Hover docs |
+| `gd` | Go to definition |
+| `gD` | Go to declaration |
+| `gi` | Go to implementation |
+| `go` | Go to type definition |
+| `gr` | References |
+| `<F2>` | Rename |
+| `<F3>` | Format (async) |
+| `<F4>` | Code action |
+
+### Git
+
+| Key | Action |
+|---|---|
+| `<leader>gs` | Git status (Fugitive) |
 
 ## Updating everything at once
 
-1. `:PackerSync` — update plugins
+1. `:Lazy sync` — update plugins
 2. `:MasonUpdate` — update language servers
-3. `:TSUpdate` — update Treesitter parsers
+3. `:TSUpdate` — update Treesitter parsers (if installed)
