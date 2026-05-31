@@ -12,9 +12,11 @@ vim.keymap.set("n", "J", "mzJ`z") -- don't move cursor on line join
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
 vim.keymap.set("n", "H", "^")
-vim.keymap.set("n", "L", "$")
+vim.keymap.set("n", "L", "g_")
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<leader>f", function() vim.lsp.buf.format() end)
+vim.keymap.set("n", "<leader>w", ":w<CR>", { desc = '[w]rite buffer' } )
+vim.keymap.set("n", "<leader>W", ":wa<CR>", { desc = '[W]rite all buffers' } )
 
 -- Clear highlights on search when pressing <Esc> in normal mode
 --  See `:help hlsearch`
@@ -25,7 +27,7 @@ vim.keymap.set("v", "p", "pgvy") -- retain yank buffer when pasting over selecti
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
 vim.keymap.set("v", "H", "^")
-vim.keymap.set("v", "L", "$")
+vim.keymap.set("v", "L", "g_")
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
 -- for people to discover. Otherwise, you normally need to press <C-\><C-n>, which
