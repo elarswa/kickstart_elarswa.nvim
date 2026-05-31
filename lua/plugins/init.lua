@@ -12,8 +12,8 @@ return {
     'olimorris/onedarkpro.nvim',
 
     -- UI
+    { "nvim-tree/nvim-web-devicons", opts = {} },
     'folke/which-key.nvim',
-    'nvim-tree/nvim-web-devicons',
     {
         'nvim-lualine/lualine.nvim',
         dependencies = { 'nvim-tree/nvim-web-devicons' },
